@@ -8,6 +8,7 @@ html
       link(rel='stylesheet', href='/public/css/main.css')
       script(src='/public/dep/jquery/dist/jquery.min.js')
       script(src='/public/dep/d3/d3.js')
+      script(src='/public/js/main-a.js')
 
   body
     block body
@@ -16,7 +17,8 @@ html
         .container
           .row
             .col-xs-12
-              h2 The 7 Dangerous New Year's Holidays in Thailand
+              h2.site-title
+                a(href='/') The 7 Dangerous New Year's Holidays in Thailand
               .subtitle Data visualization of casualties due to read accidents in Thailand during New Year Holidays in 2008 - 2015
 
           .row
@@ -26,8 +28,9 @@ html
             .col-xs-5.col-md-6.col-lg-6
               #side-panel
                 h4 Accidents during New Year Holidays
-                  select#select-year
-                    option(value='2008') 2008
+                  select#select-year(onchange='location.href="/?year="+this.value;')
+                    for y in [2008,2009,2010,2011,2012,2013,2014,2015]
+                      option(value=y, selected=(y===+select_year))= y
 
                 #timeline.timeline
 
@@ -36,7 +39,7 @@ html
                 h3 Result
 
                 #total-casualty.number-display
-                  .count 25,690
+                  .count 0
                   .text casualties
 
                 .row
@@ -129,6 +132,7 @@ html
 
 
 script(type="text/javascript").
+  var select_year = !{JSON.stringify(+select_year)};
   var w = 450;
   var h = 700;
   var projection = d3.geo.albers()
@@ -163,7 +167,9 @@ script(type="text/javascript").
       .attr("y2", t[1]);
 
   var thailand = map.append("svg:g").attr("id", "thailand");
+  var legend = map.append("svg:g").attr("id", "legend");
 
+  var dataset;
   var province = {};
   var province_data = [];
 
@@ -174,6 +180,29 @@ script(type="text/javascript").
   d3.json("/public/data/thailand.json", function (json) {
 
     parse_province(json);
+
+    // draw legend
+    var legend_data = [
+      { label: 'Injured', class: 'injured' },
+      { label: 'Died', class: 'died' },
+    ];
+    legend.selectAll(".legend-icon")
+        .data(legend_data)
+      .enter().append('circle')
+        .attr('class', function(d) { return 'legend-icon legend-icon-'+d.class; })
+        .attr('cx', function(d, i) { return 250; })
+        .attr('cy', function(d, i) { return 80 + i*20; })
+        .attr('r', 2)
+        .attr('color', function(d) { return d.color; });
+    legend.selectAll(".legend-text")
+        .data(legend_data)
+      .enter().append('text')
+        .attr('class', function(d) { return 'legend-text legend-text-'+d.class; })
+        .attr('x', function(d, i) { return 260; })
+        .attr('y', function(d, i) { return 80 + i*20; })
+        //- .attr('r', 2)
+        .text(function(d) { return d.label; });
+
 
     thailand.selectAll(".province")
         .data(json.features)
@@ -192,9 +221,130 @@ script(type="text/javascript").
         .attr('r', function(d) { return 0; })
         ;
 
-    startEmotionalScene();
+    //- startEmotionalScene();
+    //
+
+    d3.csv("/public/data/newyear_casualties_"+select_year+".csv", function(error, data) {
+    // d3.csv("/public/data/175_samples_all_newyear_casualties.csv", function(error, data) {
+      if (error) { // when data is failed to load, do nothing.
+        console.error(error);
+      } else {
+        // data is loaded successfully, we can start to visualize it.
+        dataset = data;
+
+      console.log(dataset.length);
+        //- var myfilter = {
+        //-   year: {start: select_year, end: select_year},
+        //-   time: {start: [28, 0], end: [3, 23]},
+        //-   sex: [0,1,2],
+        //-   age: [0,1,2,3,4],
+        //-   alcohol: [0,1,2],
+        //-   safety: [0,1,2],
+        //-   vehicle: [0,1,2,3,4,5],
+        //-   hitBy: [0,1,2,3,4,5]
+        //-   //- time: {start: [28, 10], end: [28, 12]},
+        //-   //- sex: [1],
+        //-   //- alcohol: [1],
+        //-   //- safety: [1],
+        //-   //- vehicle: [2],
+        //-   //- hitBy: [1,2,3,4,5],
+        //- };
+
+        //- var filtered_data = filterUtil(dataset, myfilter);
+        //- console.log(filtered_data.length);
+
+        startTimelineScene();
+
+      }
+
+    });
 
   });
+
+  function startTimelineScene() {
+    var speed = 200;
+    var parallelism = 1;
+    var target = 10000;
+    var counter = 0;
+
+    var now = [ 28, 10 ];
+    var selected_data;
+    var selected_counter = 0;
+
+    var intervalId = setInterval(updateTimelineScene, speed);
+
+    function getNext() {
+      if (now[0] == 4) return null;
+      if (selected_data && selected_counter < selected_data.length) {
+        return selected_data[selected_counter++];
+      }
+
+      var myfilter = {
+        year: {start: select_year, end: select_year},
+        time: {start: now, end: now },
+        sex: [0,1,2],
+        age: [0,1,2,3,4],
+        alcohol: [0,1,2],
+        safety: [0,1,2],
+        vehicle: [0,1,2,3,4,5],
+        hitBy: [0,1,2,3,4,5]
+      };
+
+      // filter data
+      selected_data = filterUtil(dataset, myfilter);
+      selected_counter = 0;
+
+      // move to next time slot
+      now[1]++;
+      if (now[1] === 24) {
+        now[0]++
+        now[1] = 0;
+      }
+      console.log('datetime:', now);
+
+      return selected_data[selected_counter++];
+    }
+
+    function updateTimelineScene() {
+      var data;
+      for (var i=0, data=getNext(); data && i<parallelism; data=getNext(), i++) {
+        if (shoot(data['รหัสจังหวัด'], data['ผลการรักษา'].indexOf('ตาย') >= 0, counter)) {
+          counter++;
+        }
+      }
+
+      $('#total-casualty .count').text(number_format(counter));
+
+      // step 2
+      if (speed != 0 && counter > 25) {
+        speed = 50;
+        parallelism = 1;
+        clearInterval(intervalId);
+        intervalId = setInterval(updateTimelineScene, speed);
+      }
+
+      // step 3
+      if (speed != 0 && counter > 100) {
+        speed = 50;
+        parallelism = 3;
+        clearInterval(intervalId);
+        intervalId = setInterval(updateTimelineScene, speed);
+      }
+
+      // step 4
+      if (speed != 0 && counter > 400) {
+        speed = 0;
+        parallelism = 33;
+        clearInterval(intervalId);
+        intervalId = setInterval(updateTimelineScene, speed);
+      }
+
+      // finish at date 4
+      if (now[0] === 4) {
+        clearInterval(intervalId);
+      }
+    }
+  }
 
   function startEmotionalScene() {
     var speed = 200;
@@ -320,7 +470,7 @@ script(type="text/javascript").
         .attr('r', function(d) { return 10; })
         .transition()
         //- .attr('fill', color)
-        .attr('r', function(d) { return 2; })
+        .attr('r', function(d) { return 4; })
           ;
     } else {
       circle

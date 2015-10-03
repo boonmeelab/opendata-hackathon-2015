@@ -53,6 +53,11 @@ a:hover, a:focus {
 hr {
   border-top: 1px solid #979797; }
 
+.site-title a {
+  color: #ffffff; }
+  .site-title a:hover, .site-title a:active {
+    color: #ffffff; }
+
 .subtitle {
   color: #979797;
   font-size: 1.1rem; }
@@ -66,6 +71,17 @@ hr {
     stroke: transparent; }
   #vis .province-center {
     fill: cyan; }
+  #vis .legend-icon-injured {
+    fill: #57c3d3; }
+  #vis .legend-icon-died {
+    fill: #ff0000; }
+  #vis .legend-text {
+    fill: #ffffff;
+    font-family: Roboto, sans-serif;
+    font-size: 1.2rem;
+    font-weight: normal;
+    vertical-align: middle;
+    alignment-baseline: middle; }
 
 #side-panel {
   margin-top: 40px; }

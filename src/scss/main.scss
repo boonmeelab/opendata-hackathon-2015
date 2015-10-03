@@ -16,6 +16,9 @@ $cl-primary: #57c3d3;//#b3f0e2;
 $cl-main-bg: #2c2b2b;
 $cl-text: #ffffff;
 
+$cl-injured: $cl-primary;
+$cl-died: $cl-red;
+
 // font size
 $fs-xxl: 4.8rem;//36px;//24pt;
 $fs-xl: 3.2rem;//28px;//20pt;
@@ -24,6 +27,11 @@ $fs-lg: 1.8rem;//18px;//13pt;
 $fs-md: 1.4rem;//14px;//10pt;
 $fs-sm: 1.2rem;//12px;//9pt;
 $fs-xs: 1.1rem;//11px;//8pt;
+
+// font family
+$ff-default: Roboto, sans-serif;
+
+
 
 html {
   font-size: 62.5%;
@@ -34,7 +42,7 @@ body {
   margin: 0;
   color: $cl-text;
   background: $cl-main-bg;
-  font-family: Roboto, sans-serif;
+  font-family: $ff-default;
 }
 
 h1,
@@ -63,6 +71,12 @@ hr {
   border-top: 1px solid $cl-gray;
 }
 
+.site-title {
+  a {
+    @include text-hover($cl-text, $cl-text);
+  }
+}
+
 .subtitle {
   color: $cl-gray;
   font-size: $fs-xs;
@@ -83,6 +97,22 @@ hr {
   .province-center {
     fill: cyan;
   }
+
+  .legend-icon-injured {
+    fill: $cl-injured;
+  }
+  .legend-icon-died {
+    fill: $cl-died;
+  }
+  .legend-text {
+    fill: $cl-white;
+    font-family: $ff-default;
+    font-size: $fs-sm;
+    font-weight: normal;
+    vertical-align: middle;
+    alignment-baseline: middle;
+  }
+
 }
 
 #side-panel {
@@ -111,12 +141,12 @@ hr {
   .text { font-size: $fs-lg };
 }
 #injured-casualty {
-  color: $cl-primary;
+  color: $cl-injured;
   .count { font-size: $fs-xxl; }
   .text { font-size: $fs-lg };
 }
 #died-casualty {
-  color: $cl-red;
+  color: $cl-died;
   .count { font-size: $fs-xxl; }
   .text { font-size: $fs-lg };
 }
