@@ -19,7 +19,7 @@ html
             .col-xs-12
               h2.site-title
                 a(href='/') The 7 Dangerous New Year's Holidays in Thailand
-              .subtitle Data visualization of casualties due to read accidents in Thailand during New Year Holidays in 2008 - 2015
+              .subtitle Data visualization of casualties due to lead accidents in Thailand during New Year Holidays in 2008 - 2015
 
           .row
             .col-xs-7.col-md-6.col-lg-5
@@ -40,17 +40,17 @@ html
 
                 #total-casualty.number-display
                   .count 0
-                  .text casualties
+                  .text accidents
 
                 .row
                   .col-xs-6
                     #injured-casualty.number-display
                       .count 0
-                      .text injured
+                      .text injuries
                   .col-xs-6
                     #died-casualty.number-display
                       .count 0
-                      .text died
+                      .text casualties
                 hr
 
                 h3 Filter
@@ -170,6 +170,7 @@ script(type="text/javascript").
   var legend = map.append("svg:g").attr("id", "legend");
 
   var dataset;
+  var databucket = {};
   var province = {};
   var province_data = [];
 
@@ -183,8 +184,8 @@ script(type="text/javascript").
 
     // draw legend
     var legend_data = [
-      { label: 'Injured', class: 'injured' },
-      { label: 'Died', class: 'died' },
+      { label: 'Injury', class: 'injured', r: 2 },
+      { label: 'Casualty', class: 'died', r: 4 },
     ];
     legend.selectAll(".legend-icon")
         .data(legend_data)
@@ -192,7 +193,7 @@ script(type="text/javascript").
         .attr('class', function(d) { return 'legend-icon legend-icon-'+d.class; })
         .attr('cx', function(d, i) { return 250; })
         .attr('cy', function(d, i) { return 80 + i*20; })
-        .attr('r', 2)
+        .attr('r', function(d, i) { return d.r; })
         .attr('color', function(d) { return d.color; });
     legend.selectAll(".legend-text")
         .data(legend_data)
@@ -230,28 +231,19 @@ script(type="text/javascript").
         console.error(error);
       } else {
         // data is loaded successfully, we can start to visualize it.
-        dataset = data;
+        dataset = data.filter(function(d, i) {
+          return i % 3 != 0 || d['ผลการรักษา'].indexOf('ตาย') >= 0;
+        });
 
-      console.log(dataset.length);
-        //- var myfilter = {
-        //-   year: {start: select_year, end: select_year},
-        //-   time: {start: [28, 0], end: [3, 23]},
-        //-   sex: [0,1,2],
-        //-   age: [0,1,2,3,4],
-        //-   alcohol: [0,1,2],
-        //-   safety: [0,1,2],
-        //-   vehicle: [0,1,2,3,4,5],
-        //-   hitBy: [0,1,2,3,4,5]
-        //-   //- time: {start: [28, 10], end: [28, 12]},
-        //-   //- sex: [1],
-        //-   //- alcohol: [1],
-        //-   //- safety: [1],
-        //-   //- vehicle: [2],
-        //-   //- hitBy: [1,2,3,4,5],
-        //- };
+        console.log('total data:', dataset.length);
 
-        //- var filtered_data = filterUtil(dataset, myfilter);
-        //- console.log(filtered_data.length);
+        console.log('loading...');
+
+        console.time('bucket');
+        initTimeslotBucket();
+        console.timeEnd('bucket');
+
+        console.log('ready!');
 
         startTimelineScene();
 
@@ -261,13 +253,43 @@ script(type="text/javascript").
 
   });
 
+  function initTimeslotBucket() {
+    var now = [ 28, 0 ];
+    var filter;
+    while (now[0] !== 4) {
+      filter = {
+        year: {start: select_year, end: select_year},
+        time: {start: now, end: now },
+        sex: [0,1,2],
+        age: [0,1,2,3,4],
+        alcohol: [0,1,2],
+        safety: [0,1,2],
+        vehicle: [0,1,2,3,4,5],
+        hitBy: [0,1,2,3,4,5]
+      };
+
+      // bucket data
+      databucket[now[0]] = databucket[now[0]] || {};
+      databucket[now[0]][now[1]] = filterUtil(dataset, filter);
+
+      // move to next time slot
+      now[1]++;
+      if (now[1] === 24) {
+        now[0]++;
+        if (now[0] > 31) now[0] = 1;
+        now[1] = 0;
+      }
+
+    }
+  }
+
   function startTimelineScene() {
     var speed = 200;
     var parallelism = 1;
     var target = 10000;
     var counter = 0;
 
-    var now = [ 28, 10 ];
+    var now = [ 28, 0 ];
     var selected_data;
     var selected_counter = 0;
 
@@ -279,28 +301,17 @@ script(type="text/javascript").
         return selected_data[selected_counter++];
       }
 
-      var myfilter = {
-        year: {start: select_year, end: select_year},
-        time: {start: now, end: now },
-        sex: [0,1,2],
-        age: [0,1,2,3,4],
-        alcohol: [0,1,2],
-        safety: [0,1,2],
-        vehicle: [0,1,2,3,4,5],
-        hitBy: [0,1,2,3,4,5]
-      };
-
       // filter data
-      selected_data = filterUtil(dataset, myfilter);
+      selected_data = databucket[now[0]][now[1]];
       selected_counter = 0;
 
       // move to next time slot
       now[1]++;
       if (now[1] === 24) {
-        now[0]++
+        now[0]++;
+        if (now[0] > 31) now[0] = 1;
         now[1] = 0;
       }
-      console.log('datetime:', now);
 
       return selected_data[selected_counter++];
     }
