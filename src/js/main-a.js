@@ -31,6 +31,15 @@ $(function() {
     }
     return bool;
   }
+  function timeWrapper(day, hour) {
+    // Change to int.
+    day = parseInt(day); hour = parseInt(hour);
+    // Transform both to one time variable.
+    day = (day > 20)? (day - 31) : day;
+    hour = (hour === 24)? 0 : hour;
+    var time = day * 24 + hour;
+    return time;
+  }
 
   function filterUtil(data, filter) {
     // Check if all filters are specified. If not, error and return empty array.
@@ -56,7 +65,11 @@ $(function() {
         'รถเก๋ง/แท็กซี่' : 4, 'สามล้อเครื่อง' : 4, 'รถตู้' : 4, 'รถโดยสาร 4 ล้อ' : 4,
         'รถบรรทุก' : 5, 'รถโดยสารใหญ่' : 5, 'ปิคอัพ' : 5,
       };
-      var year_filter = ((d.year >= filter.year.start) && (d.year <= filter.year.end));
+      var time = timeWrapper(d['วันที่เกิดเหตุ'], d['เวลาเกิดเหตุ']);
+      var time_filter_start = timeWrapper(filter.time.start[0], filter.time.start[1]);
+      var time_filter_end = timeWrapper(filter.time.end[0], filter.time.end[1]);
+      var time_filter = (time >= time_filter_start) && (time <= time_filter_end);
+      var year_filter = (d.year >= filter.year.start) && (d.year <= filter.year.end);
       var sex_filter = findMatchWithArrayFilter(filter.sex, genericMapper(d['เพศ'], sex_map));
       var alcohol_filter = findMatchWithArrayFilter(filter.alcohol, genericMapper(d['การดื่มสุรา'], alcohol_map));
       var safety_filter = findMatchWithArrayFilter(filter.safety, genericMapper(d['มาตรการ'], safety_map));
@@ -64,12 +77,14 @@ $(function() {
       var hitBy_filter = findMatchWithArrayFilter(filter.hitBy, genericMapper(d['รถคู่กรณี'], vehicle_map));
       console.log(d);
       console.log("year: " + year_filter +
+        " time: " + time + " " + time_filter_start + " " + time_filter_end +
+        " time reult: " + time_filter +
         " sex: " + sex_filter +
         " alcohol: " + alcohol_filter +
         " safety: " + safety_filter +
         " vehicle: " + vehicle_filter +
         " hitBy: " + hitBy_filter);
-      return year_filter && sex_filter && alcohol_filter && safety_filter && vehicle_filter && hitBy_filter;
+      return year_filter && time_filter && sex_filter && alcohol_filter && safety_filter && vehicle_filter && hitBy_filter;
     });
     return result;
   }
@@ -78,7 +93,7 @@ $(function() {
 
   d3.csv("/public/data/175_samples_all_newyear_casualties.csv", function(error, data) {
     if (error) { // when data is failed to load, do nothing.
-      console.log(error);
+      console.error(error);
     } else {
       // data is loaded successfully, we can start to visualize it.
       dataset = data;
@@ -88,7 +103,7 @@ $(function() {
       console.log("after filter");
       var myfilter = {
         year: {start: 2008, end: 2009},
-        time: {start: [28,
+        time: {start: [28, 0], end: [1, 1]},
         sex: [1],
         alcohol: [1],
         safety: [1],
