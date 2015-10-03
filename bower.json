@@ -3,12 +3,6 @@
   "description": "Open Data Hackathon 2015",
   "version": "1.0.0",
   "homepage": "http://opendata.boonmeelab.com",
-  "authors": [
-    "Rapee Suveeranont <rapee@boonmeelab.com>",
-    "Thitiphong Luangaroonlerd <thiti@boonmeelab.com>",
-    "Theeraphol Wattanavekin <theeraphol.wat@gmail.com>",
-    "Vittavin Ittipanuvat <vitavin.i@gmail.com>",
-  ],
   "description": "Thai Scorecard",
   "moduleType": [
     "globals"
