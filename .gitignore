@@ -1,3 +1,6 @@
 node_modules
 npm-debug.log
+public/css
 public/dep
+public/js
+public/view
