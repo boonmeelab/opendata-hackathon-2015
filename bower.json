@@ -1,0 +1,31 @@
+{
+  "name": "tcdc-library",
+  "version": "1.0.0",
+  "homepage": "http://library.tcdc.or.th",
+  "authors": [
+    "Rapee Suveeranont <iiieyes@gmail.com>"
+  ],
+  "description": "Thai Scorecard",
+  "moduleType": [
+    "globals"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "retinajs": "~1.2.0",
+    "jquery": "~2.0.0",
+    "bootstrap-sass": "~3.3.5",
+    "fitvids": "~1.1.0",
+    "sass-css3-mixins": "*",
+    "imgLiquid": "~0.9.944",
+    "lodash": "~3.10.1",
+    "flexslider": "~2.5.0"
+  }
+}

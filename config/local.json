@@ -1,0 +1,8 @@
+{
+  "apps" : [{
+    "name"        : "opendata_hackathon",
+    "script"      : "lib/app.js",
+    "watch"       : "./",
+    "log_date_format"  : "YYYY-MM-DD HH:mm Z",
+  }]
+}

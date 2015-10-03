@@ -1,0 +1,31 @@
+{
+  "name": "opendata-hackathon-2015",
+  "description": "Open Data Hackathon 2015",
+  "version": "1.0.0",
+  "homepage": "http://opendata.boonmeelab.com/hackathon",
+  "private": true,
+  "scripts": {
+    "start": "node lib/app.js"
+  },
+  "dependencies": {
+    "async": "0.2.9",
+    "csv": "^0.4.6",
+    "debug": "^2.2.0",
+    "express": "3.0.x",
+    "jade": "^1.11.0",
+    "lodash": "^3.9.3",
+    "superagent": "0.15.x"
+  },
+  "devDependencies": {
+    "bower": "^1.5.3",
+    "node-sass": "~1.2.3",
+    "grunt": "~0.4.1",
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jade": "~0.15.0",
+    "grunt-contrib-stylus": "~0.12.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-sass": "~0.17.0"
+  }
+}
