@@ -1,16 +1,125 @@
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,700');
+/* -------------------------------------------------------------
+  Sass CSS3 Mixins! The Cross-Browser CSS3 Sass Library
+  By: Matthieu Aussaguel, http://www.mynameismatthieu.com, @matthieu_tweets
+
+  List of CSS3 Sass Mixins File to be @imported and @included as you need
+
+  The purpose of this library is to facilitate the use of CSS3 on different browsers avoiding HARD TO READ and NEVER
+  ENDING css files
+
+  note: All CSS3 Properties are being supported by Safari 5
+  more info: http://www.findmebyip.com/litmus/#css3-properties
+
+------------------------------------------------------------- */
+/**
+ * Font Family: Roboto
+ * Weight: 400, 700
+ */
 html {
-  margin: 0; }
+  font-size: 62.5%;
+  min-height: 100%; }
 
 body {
+  margin: 0;
   color: #ffffff;
-  background: #2c2b2b; }
+  background: #2c2b2b;
+  font-family: Roboto, sans-serif; }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #b3f0e2; }
+  color: #ffffff; }
 
-#vis .province {
-  fill: transparent;
-  stroke: #ffffff;
-  stroke-linejoin: round; }
-#vis .province-center {
-  fill: cyan; }
+h1 {
+  font-size: 4.8rem; }
+
+h2 {
+  font-size: 3.2rem; }
+
+h3 {
+  font-size: 2.2rem; }
+
+h4 {
+  font-size: 1.8rem; }
+
+h5 {
+  font-size: 1.4rem; }
+
+h6 {
+  font-size: 1.4rem; }
+
+a:hover, a:focus {
+  text-decoration: none; }
+
+hr {
+  border-top: 1px solid #979797; }
+
+.subtitle {
+  color: #979797;
+  font-size: 1.1rem; }
+
+#vis {
+  background-image: url('../image/map.png');
+  background-repeat: no-repeat;
+  background-position: 50px 35px; }
+  #vis .province {
+    fill: transparent;
+    stroke: transparent; }
+  #vis .province-center {
+    fill: cyan; }
+
+#side-panel {
+  margin-top: 40px; }
+
+#timeline {
+  width: 100%;
+  height: 60px;
+  background: #666; }
+
+.number-display .count {
+  display: inline-block;
+  margin-right: 10px; }
+.number-display .text {
+  display: inline-block; }
+
+#total-casualty {
+  color: #dddddd; }
+  #total-casualty .count {
+    font-size: 2.2rem; }
+  #total-casualty .text {
+    font-size: 1.8rem; }
+
+#injured-casualty {
+  color: #57c3d3; }
+  #injured-casualty .count {
+    font-size: 4.8rem; }
+  #injured-casualty .text {
+    font-size: 1.8rem; }
+
+#died-casualty {
+  color: #ff0000; }
+  #died-casualty .count {
+    font-size: 4.8rem; }
+  #died-casualty .text {
+    font-size: 1.8rem; }
+
+.filter-display label {
+  font-size: 1.1rem;
+  font-weight: normal;
+  color: #dddddd; }
+.filter-display ul.filter-options {
+  display: block;
+  margin: 0;
+  padding: 0; }
+  .filter-display ul.filter-options li {
+    display: inline-block; }
+    .filter-display ul.filter-options li a {
+      font-size: 1.8rem;
+      color: #979797; }
+      .filter-display ul.filter-options li a:hover, .filter-display ul.filter-options li a:active {
+        color: #ffffff; }
+    .filter-display ul.filter-options li:before {
+      content: '/';
+      margin: 0 5px; }
+    .filter-display ul.filter-options li:first-child:before {
+      content: '';
+      margin: 0; }

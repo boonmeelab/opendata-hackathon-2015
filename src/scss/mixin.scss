@@ -1,0 +1,66 @@
+@import 'css3-mixins';
+
+
+$retina: "(-webkit-min-device-pixel-ratio: 1.5)";
+
+// make mouseover effects
+@mixin prop-hover($color, $change: -30%, $op: lightness, $prop: color) {
+  #{$prop}: $color;
+  &:hover,
+  &:active {
+    @if (type-of($change) == color) {
+      #{$prop}: $change;
+    } @elseif ($op == lightness) {
+      #{$prop}: scale-color($color, $lightness: $change);
+    } @else if($op == saturation) {
+      #{$prop}: scale-color($color, $saturation: $change);
+    }
+  }
+}
+@mixin text-hover($color, $change: -30%, $op: lightness) {
+  @include prop-hover($color, $change, $op, color);
+}
+@mixin background-hover($color, $change: -15%, $op: lightness) {
+  @include prop-hover($color, $change, $op, background-color);
+}
+
+// sprite mixin
+@mixin use-sprite($sprite_url_list, $sprite_width, $sprite_height:0, $w:null, $h:null, $x:0, $y:0) {
+  background-image: url(nth($sprite_url_list, 1));
+  background-repeat: no-repeat;
+  @if ($sprite_width == cover or $sprite_width == contain or $sprite_width == inherit or $sprite_width == initial) {
+    background-size: $sprite_width;
+  } @else {
+    background-size: $sprite_width $sprite_height;
+  }
+  @if ($w != null) { width: $w; }
+  // @else { width: $sprite_width; }
+  @if ($h != null) { height: $h; }
+  // @else { height: $sprite_height; }
+  background-position: $x $y;
+
+  @if (length($sprite_url_list) > 1) {
+    @media #{$retina} {
+      background-image: url(nth($sprite_url_list, 2));
+    }
+  }
+}
+
+$-common-sprite-width: 72px;//412px;
+$-common-sprite-height: 92px;//215px;
+@mixin common-sprite($w, $h, $x:0, $y:0) {
+  @include use-sprite("../../img/sprite.png" "../../img/sprite@2x.png", $-common-sprite-width, $-common-sprite-height, $w, $h, $x, $y);
+}
+
+@mixin isflex($justify-content: center, $align-items: center, $align-content: center, $flex-wrap: nowrap) {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: $justify-content;
+          justify-content: $justify-content;
+  -webkit-align-items: $align-items;
+          align-items: $align-items;
+  -webkit-align-content: $align-content;
+          align-content: $align-content;
+  -webkit-flex-wrap: $flex-wrap;
+          flex-wrap: $flex-wrap;
+}
