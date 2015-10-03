@@ -95,7 +95,8 @@ function filterUtil(data, filter) {
 function prefilterUtil(data) {
   var result = {};
   for (var i = 0, len = data.length; i < len; ++i) {
-    var day = parseInt(day), hour = parseInt(hour);
+    var day = parseInt(data[i]['วันที่เกิดเหตุ']);
+    var hour = parseInt(data[i]['เวลาเกิดเหตุ']);
     hour = (hour === 24)? 0 : hour;
     if (!(day in result)){
       result[day] = {};
