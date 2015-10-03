@@ -1,4 +1,32 @@
+$cl-primary: #b3f0e2;
+$cl-main-bg: #2c2b2b;
+$cl-text: #ffffff;
+
 html {
-  background: #ffffff;
+  margin: 0;
 }
 
+body {
+  color: $cl-text;
+  background: $cl-main-bg;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $cl-primary;
+}
+
+#vis {
+  .province {
+    fill: transparent;
+    stroke: #ffffff;
+    stroke-linejoin: round;
+  }
+  .province-center {
+    fill: cyan;
+  }
+}

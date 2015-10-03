@@ -1,0 +1,16 @@
+html {
+  margin: 0; }
+
+body {
+  color: #ffffff;
+  background: #2c2b2b; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #b3f0e2; }
+
+#vis .province {
+  fill: transparent;
+  stroke: #ffffff;
+  stroke-linejoin: round; }
+#vis .province-center {
+  fill: cyan; }
