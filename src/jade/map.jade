@@ -42,11 +42,11 @@ html
                 .row
                   .col-xs-6
                     #injured-casualty.number-display
-                      .count 25,345
+                      .count 0
                       .text injured
                   .col-xs-6
                     #died-casualty.number-display
-                      .count 345
+                      .count 0
                       .text died
                 hr
 
@@ -100,7 +100,7 @@ html
                       label Vehicle
                       ul.filter-options
                         li
-                          a(href='#', data-filter='vehicle', data-value='no') No
+                          a(href='#', data-filter='vehicle', data-value='none') none
                         li
                           a(href='#', data-filter='vehicle', data-value='motorcycle') motocycle
                         li
@@ -116,7 +116,7 @@ html
                       label Hit With
                       ul.filter-options
                         li
-                          a(href='#', data-filter='hit', data-value='no') No
+                          a(href='#', data-filter='hit', data-value='none') none
                         li
                           a(href='#', data-filter='hit', data-value='motorcycle') motocycle
                         li
@@ -167,7 +167,7 @@ script(type="text/javascript").
   var province = {};
   var province_data = [];
 
-
+  var number_format = d3.format('0,000');
   var injured_color = d3.rgb('#57c3d3');
   var dead_color = d3.rgb('#ff0000');
 
@@ -189,33 +189,60 @@ script(type="text/javascript").
           return projection(d.center)[0];
           })
         .attr('cy', function(d) { return projection(d.center)[1]; })
-        .attr('r', function(d) { return 1; })
+        .attr('r', function(d) { return 0; })
         ;
 
-    //- for (var i=0; i<30000; i++) {
-    //-   shoot(Math.floor(Math.random()*70)+10, Math.random() > 0.1 ? '#57c3d3' : '#ff0000', i);
-    //- }
-
-
-    var speed = 0;
-    var target = 10000,
-      counter = 0,
-      parallel = 200,
-      intervalId = setInterval(function() {
-
-        for (var i=0; i<parallel; i++) {
-          shoot(Math.floor(Math.random()*90)+10, Math.random() > 0.05 ? false : true, counter);
-          counter++;
-        }
-
-        $('#total-casualty .count').text(counter);
-        if (counter > target) {
-            clearInterval(intervalId);
-        }
-      }, speed);
-
+    startEmotionalScene();
 
   });
+
+  function startEmotionalScene() {
+    var speed = 200;
+    var parallelism = 1;
+    var target = 10000;
+    var counter = 0;
+
+    var intervalId = setInterval(updateEmotionalScene, speed);
+    function updateEmotionalScene() {
+
+      for (var i=0; i<parallelism; i++) {
+        if (shoot(Math.floor(Math.random()*90)+10, Math.random() > 0.015 ? false : true, counter)) {
+          counter++;
+        }
+      }
+
+      $('#total-casualty .count').text(number_format(counter));
+
+      // step 2
+      if (speed != 0 && counter > 25) {
+        speed = 50;
+        parallelism = 1;
+        clearInterval(intervalId);
+        intervalId = setInterval(updateEmotionalScene, speed);
+      }
+
+      // step 3
+      if (speed != 0 && counter > 100) {
+        speed = 50;
+        parallelism = 3;
+        clearInterval(intervalId);
+        intervalId = setInterval(updateEmotionalScene, speed);
+      }
+
+      // step 4
+      if (speed != 0 && counter > 400) {
+        speed = 0;
+        parallelism = 33;
+        clearInterval(intervalId);
+        intervalId = setInterval(updateEmotionalScene, speed);
+      }
+
+      // finish
+      if (counter > target) {
+        clearInterval(intervalId);
+      }
+    }
+  }
 
   function parse_province(data) {
     data.features.forEach(function(f) {
@@ -265,12 +292,16 @@ script(type="text/javascript").
 
   function shoot(province_id, isDead, order) {
     var p = province[province_id];
-    if (!p) return;
+    if (!p) return false;
     var p_data = [p];
     var dv = Math.log(order+1) * 2;
+    var $display = isDead ? $('#died-casualty .count') : $('#injured-casualty .count');
 
+    // update displaycount
+    $display.text(number_format(+$display.text().replace(',', '')+1) );
+
+    // add accident point randomly
     var color = isDead ? dead_color.hsl().toString() : injured_color.hsl().toString();
-
     var circle = thailand.selectAll(".accident-"+order)
       .data(p_data)
       //- .data(province_data)
@@ -296,6 +327,6 @@ script(type="text/javascript").
         .attr('fill', color)
         .attr('r', function(d) { return 1; });
     }
-
+    return true;
   }
 
