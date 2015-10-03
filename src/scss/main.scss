@@ -1,14 +1,40 @@
-$cl-primary: #b3f0e2;
+@import 'mixin';
+/**
+ * Font Family: Roboto
+ * Weight: 400, 700
+ */
+@import url('http://fonts.googleapis.com/css?family=Roboto:400,700');
+
+
+$cl-white: #ffffff;
+$cl-lightgray: #dddddd;
+$cl-gray: #979797;
+$cl-darkgray: #666;
+$cl-red: #ff0000;
+
+$cl-primary: #57c3d3;//#b3f0e2;
 $cl-main-bg: #2c2b2b;
 $cl-text: #ffffff;
 
+// font size
+$fs-xxl: 4.8rem;//36px;//24pt;
+$fs-xl: 3.2rem;//28px;//20pt;
+$fs-l2: 2.2rem;//22px;//16pt;
+$fs-lg: 1.8rem;//18px;//13pt;
+$fs-md: 1.4rem;//14px;//10pt;
+$fs-sm: 1.2rem;//12px;//9pt;
+$fs-xs: 1.1rem;//11px;//8pt;
+
 html {
-  margin: 0;
+  font-size: 62.5%;
+  min-height: 100%;
 }
 
 body {
+  margin: 0;
   color: $cl-text;
   background: $cl-main-bg;
+  font-family: Roboto, sans-serif;
 }
 
 h1,
@@ -17,16 +43,109 @@ h3,
 h4,
 h5,
 h6 {
-  color: $cl-primary;
+  color: $cl-text;//$cl-primary;
+}
+h1 { font-size: $fs-xxl; }
+h2 { font-size: $fs-xl; }
+h3 { font-size: $fs-l2; }
+h4 { font-size: $fs-lg; }
+h5 { font-size: $fs-md; }
+h6 { font-size: $fs-md; }
+
+a {
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+hr {
+  border-top: 1px solid $cl-gray;
+}
+
+.subtitle {
+  color: $cl-gray;
+  font-size: $fs-xs;
 }
 
 #vis {
+
+  background-image: url('../image/map.png');
+  background-repeat: no-repeat;
+  background-position: 50px 35px;
+
   .province {
     fill: transparent;
-    stroke: #ffffff;
-    stroke-linejoin: round;
+    stroke: transparent;
+    // stroke: #ffffff;
+    // stroke-linejoin: round;
   }
   .province-center {
     fill: cyan;
+  }
+}
+
+#side-panel {
+  margin-top: 40px;
+
+}
+
+
+#timeline {
+  width: 100%;
+  height: 60px;
+  background: $cl-darkgray;
+}
+
+
+.number-display {
+  .count {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .text { display: inline-block; }
+}
+#total-casualty {
+  color: $cl-lightgray;
+  .count { font-size: $fs-l2; }
+  .text { font-size: $fs-lg };
+}
+#injured-casualty {
+  color: $cl-primary;
+  .count { font-size: $fs-xxl; }
+  .text { font-size: $fs-lg };
+}
+#died-casualty {
+  color: $cl-red;
+  .count { font-size: $fs-xxl; }
+  .text { font-size: $fs-lg };
+}
+
+.filter-display {
+  label {
+    font-size: $fs-xs;
+    font-weight: normal;
+    color: $cl-lightgray;
+  }
+  ul.filter-options {
+    display: block;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      a {
+        font-size: $fs-lg;
+        @include text-hover($cl-gray, $cl-white);
+      }
+
+      &:before {
+        content: '/';
+        margin: 0 5px;
+      }
+      &:first-child:before {
+        content: '';
+        margin: 0;
+      }
+    }
   }
 }
