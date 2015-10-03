@@ -104,7 +104,7 @@ function prefilterUtil(data) {
     if (!(hour in result[day])) {
       result[day][hour] = [];
     }
-    result[day][hour] = data[i];
+    result[day][hour].push(data[i]);
   }
   return result;
 }
