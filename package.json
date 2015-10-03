@@ -3,7 +3,12 @@
   "description": "Open Data Hackathon 2015",
   "version": "1.0.0",
   "homepage": "http://opendata.boonmeelab.com/hackathon",
-  "private": true,
+  "authors": [
+    "Rapee Suveeranont <rapee@boonmeelab.com>",
+    "Thitiphong Luangaroonlerd <thiti@boonmeelab.com>",
+    "Theeraphol Wattanavekin <theeraphol.wat@gmail.com>",
+    "Vittavin Ittipanuvat <vitavin.i@gmail.com>"
+  ],
   "scripts": {
     "start": "node lib/app.js"
   },

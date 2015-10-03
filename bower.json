@@ -1,9 +1,13 @@
 {
-  "name": "tcdc-library",
+  "name": "opendata-hackathon-2015",
+  "description": "Open Data Hackathon 2015",
   "version": "1.0.0",
-  "homepage": "http://library.tcdc.or.th",
+  "homepage": "http://opendata.boonmeelab.com",
   "authors": [
-    "Rapee Suveeranont <iiieyes@gmail.com>"
+    "Rapee Suveeranont <rapee@boonmeelab.com>",
+    "Thitiphong Luangaroonlerd <thiti@boonmeelab.com>",
+    "Theeraphol Wattanavekin <theeraphol.wat@gmail.com>",
+    "Vittavin Ittipanuvat <vitavin.i@gmail.com>",
   ],
   "description": "Thai Scorecard",
   "moduleType": [
@@ -27,6 +31,7 @@
     "imgLiquid": "~0.9.944",
     "lodash": "~3.10.1",
     "flexslider": "~2.5.0",
-    "d3": "~3.5.6"
+    "d3": "~3.5.5",
+    "d3-tip": "~0.6.7"
   }
 }

@@ -47,8 +47,12 @@ h5 {
 h6 {
   font-size: 1.4rem; }
 
-a:hover, a:focus {
-  text-decoration: none; }
+a {
+  color: #57c3d3; }
+  a:hover, a:focus {
+    text-decoration: none; }
+  a:hover, a:active {
+    color: #2b96a5; }
 
 hr {
   border-top: 1px solid #979797; }
@@ -78,7 +82,7 @@ hr {
   #vis .legend-text {
     fill: #ffffff;
     font-family: Roboto, sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: normal;
     vertical-align: middle;
     alignment-baseline: middle; }
@@ -135,10 +139,49 @@ hr {
       font-size: 1.8rem;
       color: #979797; }
       .filter-display ul.filter-options li a:hover, .filter-display ul.filter-options li a:active {
+        color: #57c3d3; }
+      .filter-display ul.filter-options li a.selected {
         color: #ffffff; }
+        .filter-display ul.filter-options li a.selected:hover, .filter-display ul.filter-options li a.selected:active {
+          color: #ffffff; }
     .filter-display ul.filter-options li:before {
       content: '/';
       margin: 0 5px; }
     .filter-display ul.filter-options li:first-child:before {
       content: '';
       margin: 0; }
+
+#colophon {
+  margin-top: 40px;
+  font-size: 1.1rem;
+  color: #979797; }
+  #colophon .team {
+    font-size: 1.2rem;
+    color: #ffffff; }
+
+.d3-tip {
+  line-height: 1.5;
+  font-size: 1.2rem;
+  font-weight: normal;
+  padding: 12px;
+  background: #ff0000;
+  color: #ffffff;
+  border-radius: 8px; }
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: #ff0000;
+  content: "\25BC";
+  position: absolute;
+  text-align: center; }
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0; }

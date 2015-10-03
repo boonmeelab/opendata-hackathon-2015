@@ -2,12 +2,13 @@ doctype html
 html
   head
     block head
-      title อุบัติเหตุปีใหม่
+      title The 7 Dangerous New Year's Holidays in Thailand
       meta(name='viewport', content='width=device-width, initial-scale=1')
       link(rel='stylesheet', href='/public/dep/bootstrap/dist/css/bootstrap.min.css')
       link(rel='stylesheet', href='/public/css/main.css')
       script(src='/public/dep/jquery/dist/jquery.min.js')
       script(src='/public/dep/d3/d3.js')
+      script(src='/public/dep/d3-tip/index.js')
       script(src='/public/js/main-a.js')
 
   body
@@ -22,10 +23,10 @@ html
               .subtitle Data visualization of casualties due to lead accidents in Thailand during New Year Holidays in 2008 - 2015
 
           .row
-            .col-xs-7.col-md-6.col-lg-5
+            .col-xs-12.col-sm-7.col-md-6.col-lg-5
               #vis
 
-            .col-xs-5.col-md-6.col-lg-6
+            .col-xs-12.col-sm-5.col-md-6.col-lg-6
               #side-panel
                 h4 Accidents during New Year Holidays
                   select#select-year(onchange='location.href="/?year="+this.value;')
@@ -52,88 +53,139 @@ html
                       .count 0
                       .text casualties
 
-                hr
+                #filter-panel(style='display: none;')
 
-                h3 Filter
+                  hr
 
-                .row
-                  .col-xs-4
-                    #sex-filter.filter-display
-                      label Sex
-                      ul.filter-options
-                        li
-                          a(href='#', data-filter='sex', data-value='male') male
-                        li
-                          a(href='#', data-filter='sex', data-value='female') female
+                  h3 Filter
 
-                  .col-xs-8
-                    #age-filter.filter-display
-                      label Age
-                      ul.filter-options
-                        li
-                          a(href='#', data-filter='age', data-value='18-') 18 and lower
-                        li
-                          a(href='#', data-filter='age', data-value='19-35') 19-35
-                        li
-                          a(href='#', data-filter='age', data-value='36-55') 36-55
-                        li
-                          a(href='#', data-filter='age', data-value='56+') 56 up
+                  .row
+                    .col-xs-4
+                      #sex-filter.filter-display
+                        label Sex
+                        ul.filter-options
+                          li
+                            a(href='#', data-filter='sex', data-value='1') male
+                          li
+                            a(href='#', data-filter='sex', data-value='2') female
 
-                .row
-                  .col-xs-4
-                    #alcohol-filter.filter-display
-                      label Alcohol
-                      ul.filter-options
-                        li
-                          a(href='#', data-filter='alcohol', data-value='yes') yes
-                        li
-                          a(href='#', data-filter='alcohol', data-value='no') no
+                    .col-xs-8
+                      #age-filter.filter-display
+                        label Age
+                        ul.filter-options
+                          li
+                            a(href='#', data-filter='age', data-value='1') 18 and lower
+                          li
+                            a(href='#', data-filter='age', data-value='2') 19-35
+                          li
+                            a(href='#', data-filter='age', data-value='3') 36-55
+                          li
+                            a(href='#', data-filter='age', data-value='4') 56 up
 
-                  .col-xs-8
-                    #sefety-filter.filter-display
-                      label Safety (Helmet or Seat Belt)
-                      ul.filter-options
-                        li
-                          a(href='#', data-filter='safety', data-value='yes') yes
-                        li
-                          a(href='#', data-filter='safety', data-value='no') no
+                  .row
+                    .col-xs-4
+                      #alcohol-filter.filter-display
+                        label Alcohol
+                        ul.filter-options
+                          li
+                            a(href='#', data-filter='alcohol', data-value='1') yes
+                          li
+                            a(href='#', data-filter='alcohol', data-value='2') no
 
-                .row
-                  .col-xs-12
-                    #vehicle-filter.filter-display
-                      label Vehicle
-                      ul.filter-options
-                        li
-                          a(href='#', data-filter='vehicle', data-value='none') none
-                        li
-                          a(href='#', data-filter='vehicle', data-value='motorcycle') motocycle
-                        li
-                          a(href='#', data-filter='vehicle', data-value='bicycle') bicycle
-                        li
-                          a(href='#', data-filter='vehicle', data-value='car') car
-                        li
-                          a(href='#', data-filter='vehicle', data-value='pickup') pickup &amp; truck
+                    .col-xs-8
+                      #sefety-filter.filter-display
+                        label Safety (Helmet or Seat Belt)
+                        ul.filter-options
+                          li
+                            a(href='#', data-filter='safety', data-value='1') yes
+                          li
+                            a(href='#', data-filter='safety', data-value='2') no
 
-                .row
-                  .col-xs-12
-                    #hit-filter.filter-display
-                      label Hit With
-                      ul.filter-options
-                        li
-                          a(href='#', data-filter='hit', data-value='none') none
-                        li
-                          a(href='#', data-filter='hit', data-value='motorcycle') motocycle
-                        li
-                          a(href='#', data-filter='hit', data-value='bicycle') bicycle
-                        li
-                          a(href='#', data-filter='hit', data-value='car') car
-                        li
-                          a(href='#', data-filter='hit', data-value='pickup') pickup &amp; truck
+                  .row
+                    .col-xs-12
+                      #vehicle-filter.filter-display
+                        label Vehicle
+                        ul.filter-options
+                          li
+                            a(href='#', data-filter='vehicle', data-value='1') none
+                          li
+                            a(href='#', data-filter='vehicle', data-value='2') motocycle
+                          li
+                            a(href='#', data-filter='vehicle', data-value='3') bicycle
+                          li
+                            a(href='#', data-filter='vehicle', data-value='4') car
+                          li
+                            a(href='#', data-filter='vehicle', data-value='5') pickup &amp; truck
 
+                  .row
+                    .col-xs-12
+                      #hit-filter.filter-display
+                        label Hit With
+                        ul.filter-options
+                          li
+                            a(href='#', data-filter='hitBy', data-value='1') none
+                          li
+                            a(href='#', data-filter='hitBy', data-value='2') motocycle
+                          li
+                            a(href='#', data-filter='hitBy', data-value='3') bicycle
+                          li
+                            a(href='#', data-filter='hitBy', data-value='4') car
+                          li
+                            a(href='#', data-filter='hitBy', data-value='5') pickup &amp; truck
+
+          .row
+            .col-xs-12.text-center
+              #colophon
+                .team Handcrafted by Mha Muang Team
+                div &copy; 2015 Code available on &nbsp;
+                  a(href='https://github.com/boonmeelab/opendata-hackathon-2015', target='_blank') github
 
 
 script(type="text/javascript").
   var select_year = !{JSON.stringify(+select_year)};
+  var default_global_filter = {
+    year: {start: select_year, end: select_year},
+    time: {start: [28, 0], end: [3, 23]},
+    sex: [0,1,2],
+    age: [0,1,2,3,4],
+    alcohol: [0,1,2],
+    safety: [0,1,2],
+    vehicle: [0,1,2,3,4,5],
+    hitBy: [0,1,2,3,4,5]
+  };
+  // clone default filter
+  var global_filter = JSON.parse(JSON.stringify(default_global_filter));
+
+  $(function() {
+
+    $('.filter-options').on('click', 'a', function(e) {
+      e.preventDefault();
+      var $el = $(this);
+      var $group = $el.closest('.filter-options');
+      var isSelect = !$el.hasClass('selected');
+      var filter = $el.data('filter');
+      var value = $el.data('value');
+
+      $group.find('a').removeClass('selected');
+      if (isSelect) {
+        $el.addClass('selected');
+        // select one
+        global_filter[filter] = [+value];
+      } else {
+        // deselect
+        global_filter[filter] = default_global_filter[filter];
+      }
+
+      // next tick
+      setTimeout(function() {
+        updateFilter();
+      }, 1)
+    });
+
+
+  });
+
+
   var w = 450;
   var h = 700;
   var projection = d3.geo.albers()
@@ -167,8 +219,19 @@ script(type="text/javascript").
       .attr("x2", w)
       .attr("y2", t[1]);
 
+  var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return 'จังหวัด: '+d['จังหวัด']+' / เพศ: '+d['เพศ']+' / อายุ: '+d['อายุ']+' / การดื่มสุรา: '+d['การดื่มสุรา']+'<br>มาตรการ: '+d['มาตรการ']+' / รถผู้บาดเจ็บ: '+d['รถผู้บาดเจ็บ']+' / รถคู่กรณี: '+d['รถคู่กรณี'];
+      //- return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
+    });
+  map.call(tip);
+
   var thailand = map.append("svg:g").attr("id", "thailand");
   var legend = map.append("svg:g").attr("id", "legend");
+  var injuryMap = map.append("svg:g").attr("id", "injury-map");
+  var casualtyMap = map.append("svg:g").attr("id", "casualty-map");
 
   var dataset;
   var databucket = {};
@@ -224,9 +287,9 @@ script(type="text/javascript").
         ;
 
     //- startEmotionalScene();
-    //
 
-    d3.csv("/public/data/reduced_newyear_casualties_"+select_year+".csv", function(error, data) {
+
+    d3.csv("/public/data/newyear_casualties_"+select_year+".csv", function(error, data) {
     // d3.csv("/public/data/175_samples_all_newyear_casualties.csv", function(error, data) {
       if (error) { // when data is failed to load, do nothing.
         console.error(error);
@@ -235,14 +298,13 @@ script(type="text/javascript").
         dataset = data;
 
         console.log('total data:', dataset.length);
-
-        console.log('loading...');
+        //- console.log('loading...');
 
         console.time('bucket');
         initTimeslotBucket();
         console.timeEnd('bucket');
 
-        console.log('ready!');
+        //- console.log('ready!');
 
         startTimelineScene();
 
@@ -251,6 +313,41 @@ script(type="text/javascript").
     });
 
   });
+
+  function updateFilter() {
+    var filtered_data = filterUtil(dataset, global_filter);
+    var data;
+    var optimizeSpeed = true;
+    var isDead;
+    var ndead = 0;
+    console.log(filtered_data.length);
+    // clear old dots
+    injuryMap.selectAll('*').remove();
+    casualtyMap.selectAll('*').remove();
+
+    for (var i=0; i<filtered_data.length; i++) {
+      data = filtered_data[i];
+      isDead = data['ผลการรักษา'].indexOf('ตาย') >= 0;
+      if (isDead) ndead++;
+
+      // avoid rendering some injury accidents
+      // to reduce computation time
+      if (optimizeSpeed && !isDead && i%5 != 0) {
+        //- counter++;
+      } else if (shoot(data, isDead, i, false)) {
+        //- counter++;
+      }
+    }
+
+    $('#total-casualty .count').text(number_format(filtered_data.length));
+    $('#died-casualty .count').text(number_format(ndead));
+    $('#injured-casualty .count').text(number_format(filtered_data.length - ndead));
+
+  }
+
+  function endScene() {
+    $('#filter-panel').fadeIn();
+  }
 
   function initTimeslotBucket() {
     databucket = prefilterUtil(dataset);
@@ -277,7 +374,7 @@ script(type="text/javascript").
       }
 
       // filter data
-      selected_data = databucket[now[0]][now[1]];
+      selected_data = databucket[now[0]] ? databucket[now[0]][now[1]] : [];
       selected_counter = 0;
 
       // move to next time slot
@@ -308,7 +405,7 @@ script(type="text/javascript").
         // to reduce computation time
         if (optimizeSpeed && !isDead && i%5 != 0) {
           counter++;
-        } else if (shoot(data['รหัสจังหวัด'], isDead, counter)) {
+        } else if (shoot(data, isDead, counter, true)) {
           counter++;
         }
       }
@@ -335,7 +432,7 @@ script(type="text/javascript").
       // step 4
       if (speed != 0 && counter > 400) {
         speed = 0;
-        parallelism = 500;
+        parallelism = 200;
         clearInterval(intervalId);
         intervalId = setInterval(updateTimelineScene, speed);
       }
@@ -343,6 +440,7 @@ script(type="text/javascript").
       // finish at date 4
       if (now[0] === 4) {
         clearInterval(intervalId);
+        endScene();
       }
     }
   }
@@ -357,7 +455,7 @@ script(type="text/javascript").
     function updateEmotionalScene() {
 
       for (var i=0; i<parallelism; i++) {
-        if (shoot(Math.floor(Math.random()*90)+10, Math.random() > 0.015 ? false : true, counter)) {
+        if (shoot(Math.floor(Math.random()*90)+10, Math.random() > 0.015 ? false : true, counter, true)) {
           counter++;
         }
       }
@@ -391,6 +489,7 @@ script(type="text/javascript").
       // finish
       if (counter > target) {
         clearInterval(intervalId);
+        endScene();
       }
     }
   }
@@ -400,18 +499,22 @@ script(type="text/javascript").
       var id = f.properties.code;
       f.id = id;
       f.region_type = 'province';
-      f.center = get_avg_point(f.geometry);
+      f.center = get_avg_point(f);
       // add to list
       province_data.push(f);
       province[id] = f;
     });
   }
-
-  function get_avg_point(geometry) {
+  function get_coords(province) {
+    if (province.geometry.type === 'Polygon') return province.geometry.coordinates[0];
+    if (province.geometry.type === 'MultiPolygon') return province.geometry.coordinates[0][0];
+    return null;
+  }
+  function get_avg_point(province) {
     var xt=0, yt=0;
-    var data;
-    if (geometry.type === 'Polygon') data = geometry.coordinates[0];
-    if (geometry.type === 'MultiPolygon') data = geometry.coordinates[0][0];
+    var data = get_coords(province);
+    //- if (geometry.type === 'Polygon') data = geometry.coordinates[0];
+    //- if (geometry.type === 'MultiPolygon') data = geometry.coordinates[0][0];
     data.forEach(function(d) {
       xt += d[0];
       yt += d[1];
@@ -441,19 +544,26 @@ script(type="text/javascript").
     yAxis.attr("y1", ty).attr("y2", ty);
   }
 
-  function shoot(province_id, isDead, order) {
+  function shoot(data, isDead, order, animate) {
+    var province_id = data['รหัสจังหวัด'];
     var p = province[province_id];
     if (!p) return false;
-    var p_data = [p];
+    //- p = {
+    //-   center: p.center
+    //- };
+    data.center = p.center;
+    var p_data = [data];
     var dv = Math.log(order+1) * 2;
 
     // add accident point randomly
     var color = isDead ? dead_color.hsl().toString() : injured_color.hsl().toString();
-    var circle = thailand.selectAll(".accident-"+order)
+    var parent = isDead ? casualtyMap : injuryMap;
+    var circle = parent.selectAll(".accident-"+order)
       .data(p_data)
-      //- .data(province_data)
       .enter().append("svg:circle")
-        .attr('class', function(d) { return 'accident accident-dead accident-'+order; })
+        .attr('class', function(d) {
+          return 'accident accident-dead accident-'+order;
+        })
         .attr('cx', function(d) {
           return projection(d.center)[0] + Math.random()*dv*2 - dv;
         })
@@ -462,18 +572,70 @@ script(type="text/javascript").
         })
         ;
     if (isDead) {
+      // casualty dot
       circle
         .attr('fill', color)
-        .attr('r', function(d) { return 10; })
-        .transition()
-        //- .attr('fill', color)
-        .attr('r', function(d) { return 2; })
+        .on('mouseover', function(e) {
+          d3.select(this)
+            .transition()
+            .attr('r', function(d) { return 10; });
+          tip.show(e);
+        })
+        .on('mouseout', function(e) {
+          d3.select(this)
+            .transition()
+            .attr('r', function(d) { return 2; });
+          tip.hide(e);
+        });
+      if (animate) {
+        circle
+          .attr('r', function(d) { return 10; })
+          .transition()
+          .attr('r', function(d) { return 2; })
           ;
+      } else {
+        circle
+          .attr('r', function(d) { return 2; })
+          ;
+      }
     } else {
+      // injury dot
       circle
-        .attr('fill', color)
-        .attr('r', function(d) { return 1; });
+        .attr('fill', color);
+
+      if (animate) {
+        circle
+          .attr('r', function(d) { return 3; })
+          .transition()
+          .attr('r', function(d) { return 1; });
+      } else {
+        circle
+          .attr('r', function(d) { return 1; });
+      }
     }
     return true;
   }
 
+  /**
+   * @param  {point} point Point to check
+   * @param  {Array<point>} vs  Array of polygon coordinates
+   * @return {boolean}     Is inside
+   */
+  function pointInPolygon(point, vs) {
+    // ray-casting algorithm based on
+    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+    var xi, xj, i, intersect,
+        x = point[0],
+        y = point[1],
+        inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+      xi = vs[i][0],
+      yi = vs[i][1],
+      xj = vs[j][0],
+      yj = vs[j][1],
+      intersect = ((yi > y) != (yj > y))
+          && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+    }
+    return inside;
+  }

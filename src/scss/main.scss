@@ -65,6 +65,7 @@ a {
   &:focus {
     text-decoration: none;
   }
+  @include text-hover($cl-primary);
 }
 
 hr {
@@ -107,7 +108,7 @@ hr {
   .legend-text {
     fill: $cl-white;
     font-family: $ff-default;
-    font-size: $fs-sm;
+    font-size: $fs-xs;
     font-weight: normal;
     vertical-align: middle;
     alignment-baseline: middle;
@@ -168,7 +169,11 @@ hr {
       display: inline-block;
       a {
         font-size: $fs-lg;
-        @include text-hover($cl-gray, $cl-white);
+        @include text-hover($cl-gray, $cl-primary);
+
+        &.selected {
+          @include text-hover($cl-white, $cl-white);
+        }
       }
 
       &:before {
@@ -182,3 +187,53 @@ hr {
     }
   }
 }
+
+
+#colophon {
+  margin-top: 40px;
+  font-size: $fs-xs;
+  color: $cl-gray;
+  .team {
+    font-size: $fs-sm;
+    color: $cl-white;
+  }
+}
+
+
+
+
+
+
+
+.d3-tip {
+  line-height: 1.5;
+  font-size: $fs-sm;
+  font-weight: normal;
+  padding: 12px;
+  background: $cl-red;//rgba(0, 0, 0, 0.8);
+  color: $cl-white;
+  border-radius: 8px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: $cl-red;//rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+
+
