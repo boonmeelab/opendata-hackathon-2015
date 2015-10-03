@@ -92,6 +92,21 @@ function filterUtil(data, filter) {
   return result;
 }
 
+function prefilterUtil(data) {
+  var result = {};
+  for (var i = 0, len = data.length; i < len; ++i) {
+    var day = parseInt(day), hour = parseInt(hour);
+    hour = (hour === 24)? 0 : hour;
+    if (!(day in result)){
+      result[day] = {};
+    }
+    if (!(hour in result[day])) {
+      result[day][hour] = [];
+    }
+    result[day][hour] = data[i];
+  }
+  return result;
+}
 
 //   // Global var for all loaded .csv data
 //   var dataset;
