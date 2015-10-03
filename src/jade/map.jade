@@ -51,6 +51,7 @@ html
                     #died-casualty.number-display
                       .count 0
                       .text casualties
+
                 hr
 
                 h3 Filter
@@ -225,15 +226,13 @@ script(type="text/javascript").
     //- startEmotionalScene();
     //
 
-    d3.csv("/public/data/newyear_casualties_"+select_year+".csv", function(error, data) {
+    d3.csv("/public/data/reduced_newyear_casualties_"+select_year+".csv", function(error, data) {
     // d3.csv("/public/data/175_samples_all_newyear_casualties.csv", function(error, data) {
       if (error) { // when data is failed to load, do nothing.
         console.error(error);
       } else {
         // data is loaded successfully, we can start to visualize it.
-        dataset = data.filter(function(d, i) {
-          return i % 3 != 0 || d['ผลการรักษา'].indexOf('ตาย') >= 0;
-        });
+        dataset = data;
 
         console.log('total data:', dataset.length);
 
@@ -254,44 +253,20 @@ script(type="text/javascript").
   });
 
   function initTimeslotBucket() {
-    var now = [ 28, 0 ];
-    var filter;
-    while (now[0] !== 4) {
-      filter = {
-        year: {start: select_year, end: select_year},
-        time: {start: now, end: now },
-        sex: [0,1,2],
-        age: [0,1,2,3,4],
-        alcohol: [0,1,2],
-        safety: [0,1,2],
-        vehicle: [0,1,2,3,4,5],
-        hitBy: [0,1,2,3,4,5]
-      };
-
-      // bucket data
-      databucket[now[0]] = databucket[now[0]] || {};
-      databucket[now[0]][now[1]] = filterUtil(dataset, filter);
-
-      // move to next time slot
-      now[1]++;
-      if (now[1] === 24) {
-        now[0]++;
-        if (now[0] > 31) now[0] = 1;
-        now[1] = 0;
-      }
-
-    }
+    databucket = prefilterUtil(dataset);
   }
 
   function startTimelineScene() {
     var speed = 200;
     var parallelism = 1;
-    var target = 10000;
     var counter = 0;
 
     var now = [ 28, 0 ];
     var selected_data;
     var selected_counter = 0;
+
+    var $diedCount = $('#died-casualty .count');
+    var $injuredCount = $('#injured-casualty .count');
 
     var intervalId = setInterval(updateTimelineScene, speed);
 
@@ -318,12 +293,27 @@ script(type="text/javascript").
 
     function updateTimelineScene() {
       var data;
+      var isDead;
+      var optimizeSpeed = counter > 400;
+      var $display;
+
       for (var i=0, data=getNext(); data && i<parallelism; data=getNext(), i++) {
-        if (shoot(data['รหัสจังหวัด'], data['ผลการรักษา'].indexOf('ตาย') >= 0, counter)) {
+        isDead = data['ผลการรักษา'].indexOf('ตาย') >= 0;
+
+        // update display count
+        $display = isDead ? $diedCount : $injuredCount;
+        $display.text(number_format(+$display.text().replace(',', '')+1) );
+
+        // avoid rendering some injury accidents
+        // to reduce computation time
+        if (optimizeSpeed && !isDead && i%5 != 0) {
+          counter++;
+        } else if (shoot(data['รหัสจังหวัด'], isDead, counter)) {
           counter++;
         }
       }
 
+      // update display count
       $('#total-casualty .count').text(number_format(counter));
 
       // step 2
@@ -345,7 +335,7 @@ script(type="text/javascript").
       // step 4
       if (speed != 0 && counter > 400) {
         speed = 0;
-        parallelism = 33;
+        parallelism = 500;
         clearInterval(intervalId);
         intervalId = setInterval(updateTimelineScene, speed);
       }
@@ -456,10 +446,6 @@ script(type="text/javascript").
     if (!p) return false;
     var p_data = [p];
     var dv = Math.log(order+1) * 2;
-    var $display = isDead ? $('#died-casualty .count') : $('#injured-casualty .count');
-
-    // update displaycount
-    $display.text(number_format(+$display.text().replace(',', '')+1) );
 
     // add accident point randomly
     var color = isDead ? dead_color.hsl().toString() : injured_color.hsl().toString();
@@ -481,7 +467,7 @@ script(type="text/javascript").
         .attr('r', function(d) { return 10; })
         .transition()
         //- .attr('fill', color)
-        .attr('r', function(d) { return 4; })
+        .attr('r', function(d) { return 2; })
           ;
     } else {
       circle
