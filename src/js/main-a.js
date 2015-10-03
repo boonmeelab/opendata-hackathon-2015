@@ -35,6 +35,14 @@ function timeWrapper(day, hour) {
   return time;
 }
 
+function ageWrapper(age) {
+  if (age <= 18) return 1;
+  else if (age >= 19 && age <= 35) return 2;
+  else if (age >= 36 && age <= 55) return 3;
+  else if (age >= 56) return 4;
+  return -1;
+}
+
 function filterUtil(data, filter) {
   // Check if all filters are specified. If not, error and return empty array.
   if (!(filter.year && filter.year.start && filter.year.end &&
@@ -65,6 +73,7 @@ function filterUtil(data, filter) {
     var time_filter = (time >= time_filter_start) && (time <= time_filter_end);
     var year_filter = (d.year >= filter.year.start) && (d.year <= filter.year.end);
     var sex_filter = findMatchWithArrayFilter(filter.sex, genericMapper(d['เพศ'], sex_map));
+    var age_filter = ageWrapper(d['อายุ']);
     var alcohol_filter = findMatchWithArrayFilter(filter.alcohol, genericMapper(d['การดื่มสุรา'], alcohol_map));
     var safety_filter = findMatchWithArrayFilter(filter.safety, genericMapper(d['มาตรการ'], safety_map));
     var vehicle_filter = findMatchWithArrayFilter(filter.vehicle, genericMapper(d['รถผู้บาดเจ็บ'], vehicle_map));
@@ -78,7 +87,7 @@ function filterUtil(data, filter) {
     //   " safety: " + safety_filter +
     //   " vehicle: " + vehicle_filter +
     //   " hitBy: " + hitBy_filter);
-    return year_filter && time_filter && sex_filter && alcohol_filter && safety_filter && vehicle_filter && hitBy_filter;
+    return year_filter && time_filter && sex_filter && age_filter && alcohol_filter && safety_filter && vehicle_filter && hitBy_filter;
   });
   return result;
 }
