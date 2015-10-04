@@ -138,6 +138,11 @@ hr {
     margin-top: 20px;
   }
 
+  // slider handler
+  .ui-slider-handle.ui-state-default.ui-corner-all {
+    background: $cl-primary;
+  }
+
 }
 
 

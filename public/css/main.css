@@ -102,6 +102,8 @@ hr {
     margin-left: -10px;
     text-align: center;
     margin-top: 20px; }
+  #timeline .ui-slider-handle.ui-state-default.ui-corner-all {
+    background: #57c3d3; }
 
 .number-display .count {
   display: inline-block;

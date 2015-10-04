@@ -3,7 +3,6 @@
   "description": "Open Data Hackathon 2015",
   "version": "1.0.0",
   "homepage": "http://opendata.boonmeelab.com",
-  "description": "Thai Scorecard",
   "moduleType": [
     "globals"
   ],
@@ -26,6 +25,7 @@
     "lodash": "~3.10.1",
     "flexslider": "~2.5.0",
     "d3": "~3.5.5",
-    "d3-tip": "~0.6.7"
+    "d3-tip": "~0.6.7",
+    "jquery-ui": "~1.11.4"
   }
 }
