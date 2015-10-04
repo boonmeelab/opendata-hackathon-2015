@@ -29,7 +29,7 @@ function timeWrapper(day, hour) {
   // Change to int.
   day = parseInt(day); hour = parseInt(hour);
   // Transform both to one time variable.
-  day = (day > 20)? (day - 31) : day;
+  day = (day > 20)? (day-28) : (day + 3);
   hour = (hour === 24)? 0 : hour;
   var time = day * 24 + hour;
   return time;

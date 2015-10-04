@@ -5,8 +5,10 @@ html
       title The 7 Dangerous New Year's Holidays in Thailand
       meta(name='viewport', content='width=device-width, initial-scale=1')
       link(rel='stylesheet', href='/public/dep/bootstrap/dist/css/bootstrap.min.css')
+      link(rel='stylesheet', href='/public/dep/jquery-ui/themes/trontastic/jquery-ui.min.css')
       link(rel='stylesheet', href='/public/css/main.css')
       script(src='/public/dep/jquery/dist/jquery.min.js')
+      script(src='/public/dep/jquery-ui/jquery-ui.min.js')
       script(src='/public/dep/d3/d3.js')
       script(src='/public/dep/d3-tip/index.js')
       script(src='/public/js/main-a.js')
@@ -34,6 +36,8 @@ html
                       option(value=y, selected=(y===+select_year))= y
 
                 #timeline.timeline
+                  #slider
+                  #slider_caption
 
                 hr
 
@@ -181,8 +185,6 @@ script(type="text/javascript").
         updateFilter();
       }, 1)
     });
-
-
   });
 
 
@@ -306,6 +308,39 @@ script(type="text/javascript").
 
         //- console.log('ready!');
 
+        // init slider
+        var $slider = $('#slider');
+        var max_val = 7 * 24;
+        $slider.slider({
+          max: max_val,
+          min: 0,
+          value: 0,
+          step: 1,
+          slide: function(e, ui) {
+            console.log(e);
+            console.log(ui.value);
+            var value = ui.value;
+            var day = value / 24;
+            var hour = value % 24;
+            day = (day < 4)? day + 28: day - 3;
+            global_filter['time'].end[0] = day;
+            global_filter['time'].end[1] = hour;
+            // next tick
+            setTimeout(function() {
+              updateFilter();
+            }, 1);
+          },
+        })
+        .each(function() {
+          // Space out values
+          var day_captions= ['Dec 28', 'Dec 29', 'Dec 30', 'Dec 31', 'Jan 1', 'Jan 2', 'Jan 3'];
+          for (var i = 0, len = day_captions.length; i < len; ++i) {
+            var el = $('<label>' + day_captions[i] + '</label>').css('left',(i/(len-1)*100)+'%');
+            $( "#slider" ).append(el);
+          }
+        });
+
+        $slider.slider('disable');
         startTimelineScene();
 
       }
@@ -347,6 +382,7 @@ script(type="text/javascript").
 
   function endScene() {
     $('#filter-panel').fadeIn();
+    $('#slider').slider('enable');
   }
 
   function initTimeslotBucket() {
@@ -365,6 +401,8 @@ script(type="text/javascript").
     var $diedCount = $('#died-casualty .count');
     var $injuredCount = $('#injured-casualty .count');
 
+    var $slider = $('#slider');
+
     var intervalId = setInterval(updateTimelineScene, speed);
 
     function getNext() {
@@ -372,6 +410,9 @@ script(type="text/javascript").
       if (selected_data && selected_counter < selected_data.length) {
         return selected_data[selected_counter++];
       }
+
+      // update slider timeline
+      $slider.slider('value', timeWrapper(now[0], now[1]));
 
       // filter data
       selected_data = databucket[now[0]] ? databucket[now[0]][now[1]] : [];
