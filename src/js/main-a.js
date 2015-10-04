@@ -35,12 +35,14 @@ function timeWrapper(day, hour) {
   return time;
 }
 
-function ageWrapper(age) {
-  if (age <= 18) return 1;
-  else if (age >= 19 && age <= 35) return 2;
-  else if (age >= 36 && age <= 55) return 3;
-  else if (age >= 56) return 4;
-  return -1;
+function ageWrapper(ageRangeArrayFilter, age) {
+  var ageRange = -1;
+  if (age <= 18) ageRange = 1;
+  else if (age >= 19 && age <= 35) ageRange = 2;
+  else if (age >= 36 && age <= 55) ageRange = 3;
+  else if (age >= 56) ageRange = 4;
+
+  return ageRangeArrayFilter.indexOf(ageRange) >= 0;
 }
 
 function filterUtil(data, filter) {
@@ -73,7 +75,7 @@ function filterUtil(data, filter) {
     var time_filter = (time >= time_filter_start) && (time <= time_filter_end);
     var year_filter = (d.year >= filter.year.start) && (d.year <= filter.year.end);
     var sex_filter = findMatchWithArrayFilter(filter.sex, genericMapper(d['เพศ'], sex_map));
-    var age_filter = ageWrapper(d['อายุ']);
+    var age_filter = ageWrapper(filter.age, +d['อายุ']);
     var alcohol_filter = findMatchWithArrayFilter(filter.alcohol, genericMapper(d['การดื่มสุรา'], alcohol_map));
     var safety_filter = findMatchWithArrayFilter(filter.safety, genericMapper(d['มาตรการ'], safety_map));
     var vehicle_filter = findMatchWithArrayFilter(filter.vehicle, genericMapper(d['รถผู้บาดเจ็บ'], vehicle_map));

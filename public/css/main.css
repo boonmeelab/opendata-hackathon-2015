@@ -101,7 +101,10 @@ hr {
     width: 20px;
     margin-left: -10px;
     text-align: center;
-    margin-top: 20px; }
+    margin-top: 20px;
+    color: #ffffff;
+    font-weight: normal;
+    font-size: 1.4rem; }
   #timeline .ui-slider-handle.ui-state-default.ui-corner-all {
     background: #57c3d3; }
 

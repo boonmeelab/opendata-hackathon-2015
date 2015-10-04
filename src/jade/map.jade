@@ -223,7 +223,7 @@ script(type="text/javascript").
 
   var tip = d3.tip()
     .attr('class', 'd3-tip')
-    .offset([-10, 0])
+    .offset([-20, 0])
     .html(function(d) {
       return 'จังหวัด: '+d['จังหวัด']+' / เพศ: '+d['เพศ']+' / อายุ: '+d['อายุ']+' / การดื่มสุรา: '+d['การดื่มสุรา']+'<br>มาตรการ: '+d['มาตรการ']+' / รถผู้บาดเจ็บ: '+d['รถผู้บาดเจ็บ']+' / รถคู่กรณี: '+d['รถคู่กรณี'];
       //- return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
@@ -335,7 +335,7 @@ script(type="text/javascript").
           // Space out values
           var day_captions= ['Dec 28', 'Dec 29', 'Dec 30', 'Dec 31', 'Jan 1', 'Jan 2', 'Jan 3'];
           for (var i = 0, len = day_captions.length; i < len; ++i) {
-            var el = $('<label>' + day_captions[i] + '</label>').css('left',(i/(len-1)*100)+'%');
+            var el = $('<label>' + day_captions[i] + '</label>').css('left',(i/(len)*100)+'%');
             $( "#slider" ).append(el);
           }
         });

@@ -130,12 +130,17 @@ hr {
   height: 60px;
   //background: $cl-gray;
 
-  #slider label {
-    position: absolute;
-    width: 20px;
-    margin-left: -10px;
-    text-align: center;
-    margin-top: 20px;
+  #slider {
+    label {
+      position: absolute;
+      width: 20px;
+      margin-left: -10px;
+      text-align: center;
+      margin-top: 20px;
+      color: $cl-white;
+      font-weight: normal;
+      font-size: $fs-md;
+    }
   }
 
   // slider handler
