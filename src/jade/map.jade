@@ -5,7 +5,7 @@ html
       title The 7 Dangerous New Year's Holidays in Thailand
       meta(name='viewport', content='width=device-width, initial-scale=1')
       link(rel='stylesheet', href='/public/dep/bootstrap/dist/css/bootstrap.min.css')
-      link(rel='stylesheet', href='/public/dep/jquery-ui/themes/trontastic/jquery-ui.min.css')
+      link(rel='stylesheet', href='/public/dep/jquery-ui/themes/excite-bike/jquery-ui.min.css')
       link(rel='stylesheet', href='/public/css/main.css')
       script(src='/public/dep/jquery/dist/jquery.min.js')
       script(src='/public/dep/jquery-ui/jquery-ui.min.js')
@@ -111,8 +111,6 @@ html
                         label Vehicle
                         ul.filter-options
                           li
-                            a(href='#', data-filter='vehicle', data-value='1') none
-                          li
                             a(href='#', data-filter='vehicle', data-value='2') motocycle
                           li
                             a(href='#', data-filter='vehicle', data-value='3') bicycle
@@ -120,14 +118,14 @@ html
                             a(href='#', data-filter='vehicle', data-value='4') car
                           li
                             a(href='#', data-filter='vehicle', data-value='5') pickup &amp; truck
+                          li
+                            a(href='#', data-filter='vehicle', data-value='1') others
 
                   .row
                     .col-xs-12
                       #hit-filter.filter-display
                         label Hit With
                         ul.filter-options
-                          li
-                            a(href='#', data-filter='hitBy', data-value='1') none
                           li
                             a(href='#', data-filter='hitBy', data-value='2') motocycle
                           li
@@ -136,6 +134,8 @@ html
                             a(href='#', data-filter='hitBy', data-value='4') car
                           li
                             a(href='#', data-filter='hitBy', data-value='5') pickup &amp; truck
+                          li
+                            a(href='#', data-filter='hitBy', data-value='1') others
 
           .row
             .col-xs-12.text-center
