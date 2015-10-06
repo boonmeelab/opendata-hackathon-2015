@@ -10,12 +10,14 @@ $cl-white: #ffffff;
 $cl-lightgray: #dddddd;
 $cl-gray: #979797;
 $cl-darkgray: #666;
+$cl-darkergray: #444;
 $cl-red: #ff0000;
+$cl-orange: orange;
 
 $cl-primary: #57c3d3;//#b3f0e2;
 $cl-main-bg: #2c2b2b;
 $cl-text: #ffffff;
-
+$cl-year: $cl-orange;
 $cl-injured: $cl-primary;
 $cl-died: $cl-red;
 
@@ -69,10 +71,11 @@ a {
 }
 
 hr {
-  border-top: 1px solid $cl-gray;
+  border-top: 1px solid $cl-darkgray;
 }
 
 .site-title {
+  margin-bottom: 5px;
   a {
     @include text-hover($cl-text, $cl-text);
   }
@@ -81,6 +84,16 @@ hr {
 .subtitle {
   color: $cl-gray;
   font-size: $fs-xs;
+}
+
+.social-button-list {
+  height: 20px;
+  text-align: right;
+
+  > * {
+    vertical-align: top;
+    margin-right: 5px;
+  }
 }
 
 #vis {
@@ -117,35 +130,79 @@ hr {
 }
 
 #side-panel {
-  margin-top: 40px;
-
+  margin-top: 30px;
 }
 
 #select-year {
+  display: inline-block;
   margin-left: 10px;
+  font-size: $fs-md;
+
+  .dropdown-toggle {
+    font-size: $fs-xl;
+    color: $cl-orange;
+    background: none;
+    border: none;
+
+    .caret {
+      @include transform(scale(1.4)translateX(5px));
+    }
+  }
+  .dropdown-menu {
+    background: $cl-main-bg;
+    a {
+      @include text-hover($cl-text);
+      @include background-hover(transparent, $cl-darkgray);
+      &.selected {
+        @include text-hover($cl-year);
+      }
+    }
+  }
 }
 
 #timeline {
   width: 100%;
   height: 60px;
   //background: $cl-gray;
+  margin-top: 20px;
+  margin-bottom: 20px;
 
   #slider {
+    background: $cl-darkergray;
+    border: none;
+    height: 20px;
+
     label {
       position: absolute;
-      width: 20px;
-      margin-left: -10px;
-      text-align: center;
-      margin-top: 20px;
-      color: $cl-white;
+      display: block;
+      width: 60px;
+      margin-top: 24px;
+      margin-left: 8px;
+      color: $cl-lightgray;
       font-weight: normal;
-      font-size: $fs-md;
+      font-size: $fs-xs;
+      border-radius: 0;
+
+      &:before {
+        content: '';
+        position: absolute;
+        display: block;
+        top: -24px;
+        left: -8px;
+        border-left: 1px solid $cl-darkgray;
+        height: 40px;
+      }
     }
   }
 
   // slider handler
   .ui-slider-handle.ui-state-default.ui-corner-all {
-    background: $cl-primary;
+    background: $cl-year;
+    border: none;
+    border-radius: 40px;
+    width: 20px;
+    height: 20px;
+    top: 0;
   }
 
 }
@@ -175,15 +232,18 @@ hr {
 }
 
 .filter-display {
+  margin-bottom: 10px;
   label {
     font-size: $fs-xs;
     font-weight: normal;
     color: $cl-lightgray;
+    margin: 0;
   }
   ul.filter-options {
     display: block;
     margin: 0;
     padding: 0;
+    line-height: 1.2;
     li {
       display: inline-block;
       a {
@@ -210,14 +270,89 @@ hr {
 
 #colophon {
   margin-top: 40px;
+  margin-bottom: 40px;
   font-size: $fs-xs;
   color: $cl-gray;
+  .spotlight-box {
+    $_size: 180px;
+    position: relative;
+    width: $_size;
+    margin: 40px auto 40px;
+
+    .logo {
+      position: absolute;
+      top: 0;
+      width: $_size;
+      height: $_size;
+      border-radius: $_size;
+      // background-color: rgba($cl-white, 1.0);
+      opacity: 0.05;
+      @include transform(scale(0.95));
+      @include transition(all 0.2s ease-in);
+
+      img {
+        width: 70%;
+        margin-top: 8%;
+      }
+    }
+    .spot {
+      position: relative;
+      width: $_size;
+      height: $_size;
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        display: inline-block;
+        width: $_size;
+        height: $_size;
+        border-radius: $_size;
+        background-color: rgba($cl-white, .3);
+        @include transition(all 0.2s ease-in);
+      }
+      &:before {
+        top: 0;
+        left: -50px;
+      }
+      &:after {
+        top: 0;
+        right: -50px
+      }
+    }
+  }
   .team {
     font-size: $fs-sm;
     color: $cl-white;
   }
 }
 
+
+@mixin build-logo() {
+  .logo {
+    opacity: 1.0;
+    @include transform(scale(1.0));
+  }
+  .spot {
+    &:before {
+      left: -3px;
+      top: -1px;
+      background-color: rgba($cl-white, .8);
+    }
+    &:after {
+      right: -3px;
+      top: 1px;
+      background-color: rgba($cl-white, .8);
+    }
+  }
+}
+#colophon .spotlight-box {
+  @media only screen and (max-width: 767px) {
+    @include build-logo();
+  }
+}
+#colophon .spotlight-box:hover {
+  @include build-logo();
+}
 
 
 

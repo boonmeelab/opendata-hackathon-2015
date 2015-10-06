@@ -1,17 +1,38 @@
 doctype html
 html
   head
+    - site_title = 'The 7 Dangerous New Year\'s Holidays in Thailand'
+    - site_description = 'Data visualization of road accident casualties in Thailand during New Year Holidays 2008 - 2015'
     block head
-      title The 7 Dangerous New Year's Holidays in Thailand
+      title= site_title
       meta(name='viewport', content='width=device-width, initial-scale=1')
       link(rel='stylesheet', href='/public/dep/bootstrap/dist/css/bootstrap.min.css')
       link(rel='stylesheet', href='/public/dep/jquery-ui/themes/excite-bike/jquery-ui.min.css')
       link(rel='stylesheet', href='/public/css/main.css')
       script(src='/public/dep/jquery/dist/jquery.min.js')
       script(src='/public/dep/jquery-ui/jquery-ui.min.js')
+      script(src='/public/dep/bootstrap/js/dropdown.js')
       script(src='/public/dep/d3/d3.js')
       script(src='/public/dep/d3-tip/index.js')
       script(src='/public/js/main-a.js')
+      script.
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-43653558-10', 'auto');
+        ga('send', 'pageview');
+
+      // Twitter Card data
+      meta(name='twitter:card', value=site_description)
+
+      // Open Graph data
+      meta(property='og:title', content=site_title)
+      meta(property='og:type', content='article')
+      meta(property='og:url', content='http://opendata.boonmeelab.com/')
+      meta(property='og:image', content='http://opendata.boonmeelab.com/public/image/preview.png')
+      meta(property='og:description', content=site_description)
 
   body
     block body
@@ -21,8 +42,11 @@ html
           .row
             .col-xs-12
               h2.site-title
-                a(href='/') The 7 Dangerous New Year's Holidays in Thailand
-              .subtitle Data visualization of casualties due to lead accidents in Thailand during New Year Holidays in 2008 - 2015
+                a(href='/')= site_title
+              .subtitle= site_description
+              .social-button-list
+                .fb-like(data-href='http://opendata.boonmeelab.com/', data-layout='button_count', data-action='like', data-show-faces='false', data-share='false')
+                a.twitter-share-button(href='https://twitter.com/share', data-url='http://opendata.boonmeelab.com/')
 
           .row
             .col-xs-12.col-sm-7.col-md-6.col-lg-5
@@ -31,9 +55,14 @@ html
             .col-xs-12.col-sm-5.col-md-6.col-lg-6
               #side-panel
                 h4 Accidents during New Year Holidays
-                  select#select-year(onchange='location.href="/?year="+this.value;')
-                    for y in [2008,2009,2010,2011,2012,2013,2014,2015]
-                      option(value=y, selected=(y===+select_year))= y
+
+                  #select-year.dropdown
+                    a#select-year-btn.dropdown-toggle(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='true')
+                      | #{select_year}
+                      span.caret
+                    ul.dropdown-menu(aria-labelledby='select-year-btn')
+                      for y in [2008,2009,2010,2011,2012,2013,2014,2015]
+                        li: a(href='/?year='+y, class=y===+select_year?'selected':'')= y
 
                 #timeline.timeline
                   #slider
@@ -141,8 +170,15 @@ html
             .col-xs-12.text-center
               #colophon
                 .team Handcrafted by Mha Muang Team
-                div &copy; 2015 Code available on &nbsp;
-                  a(href='https://github.com/boonmeelab/opendata-hackathon-2015', target='_blank') github
+                div
+                  | &copy; 2015 Code available on &nbsp;
+                  a(href='https://github.com/boonmeelab/opendata-hackathon-2015', target='_blank') GitHub
+                  | . Hosted by &nbsp;
+                  a(href='http://www.boonmeelab.com', target='_blank') Boonmee Lab
+                .spotlight-box
+                  .spot
+                  .logo
+                    img(src='/public/image/logo.png')
 
 
 script(type="text/javascript").
@@ -680,3 +716,18 @@ script(type="text/javascript").
     }
     return inside;
   }
+
+
+
+script(type="text/javascript").
+  // facebook
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.4&appId=137060519742048";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // twitter
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
