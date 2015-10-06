@@ -5,6 +5,7 @@
  */
 @import url('http://fonts.googleapis.com/css?family=Roboto:400,700');
 
+$screen-mobile: "only screen and (max-width: 767px)";
 
 $cl-white: #ffffff;
 $cl-lightgray: #dddddd;
@@ -96,11 +97,23 @@ hr {
   }
 }
 
+.vis-container {
+  overflow: hidden;
+  margin-top: -160px;
+  @media #{$screen-mobile} {
+    margin-top: 0px;
+  }
+}
+
 #vis {
 
   background-image: url('../image/map.png');
   background-repeat: no-repeat;
   background-position: 50px 35px;
+
+  @media #{$screen-mobile} {
+    margin-left: -15%;
+  }
 
   .province {
     fill: transparent;
@@ -165,7 +178,7 @@ hr {
   height: 60px;
   //background: $cl-gray;
   margin-top: 20px;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 
   #slider {
     background: $cl-darkergray;
@@ -285,7 +298,6 @@ hr {
       width: $_size;
       height: $_size;
       border-radius: $_size;
-      // background-color: rgba($cl-white, 1.0);
       opacity: 0.05;
       @include transform(scale(0.95));
       @include transition(all 0.2s ease-in);
@@ -319,6 +331,19 @@ hr {
         right: -50px
       }
     }
+
+    @media #{$screen-mobile} {
+      $_size: 80px;
+      width: $_size;
+      margin-top: 20px;
+      .logo,
+      .spot,
+      .spot:before,
+      .spot:after {
+        width: $_size;
+        height: $_size;
+      }
+    }
   }
   .team {
     font-size: $fs-sm;
@@ -346,7 +371,7 @@ hr {
   }
 }
 #colophon .spotlight-box {
-  @media only screen and (max-width: 767px) {
+  @media #{$screen-mobile} {
     @include build-logo();
   }
 }

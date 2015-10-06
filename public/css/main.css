@@ -75,10 +75,20 @@ hr {
     vertical-align: top;
     margin-right: 5px; }
 
+.vis-container {
+  overflow: hidden;
+  margin-top: -160px; }
+  @media only screen and (max-width: 767px) {
+    .vis-container {
+      margin-top: 0px; } }
+
 #vis {
   background-image: url('../image/map.png');
   background-repeat: no-repeat;
   background-position: 50px 35px; }
+  @media only screen and (max-width: 767px) {
+    #vis {
+      margin-left: -15%; } }
   #vis .province {
     fill: transparent;
     stroke: transparent; }
@@ -132,8 +142,7 @@ hr {
 #timeline {
   width: 100%;
   height: 60px;
-  margin-top: 20px;
-  margin-bottom: 20px; }
+  margin-top: 20px; }
   #timeline #slider {
     background: #444;
     border: none;
@@ -276,6 +285,13 @@ hr {
       #colophon .spotlight-box .spot:after {
         top: 0;
         right: -50px; }
+    @media only screen and (max-width: 767px) {
+      #colophon .spotlight-box {
+        width: 80px;
+        margin-top: 20px; }
+        #colophon .spotlight-box .logo, #colophon .spotlight-box .spot, #colophon .spotlight-box .spot:before, #colophon .spotlight-box .spot:after {
+          width: 80px;
+          height: 80px; } }
   #colophon .team {
     font-size: 1.2rem;
     color: #ffffff; }
