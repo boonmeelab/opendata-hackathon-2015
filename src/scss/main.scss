@@ -105,14 +105,33 @@ hr {
   }
 }
 
-#vis {
+#map {
+  margin-top: 35px;
+  margin-left: 43px;
 
-  background-image: url('../image/map.png');
+  polygon,
+  path {
+    fill: transparent;
+    stroke: $cl-darkgray;
+  }
+}
+
+#vis {
+  position: relative;
+
+  // background-image: url('../image/thailand.svg');
+  // background-image: url('../image/map.png');
   background-repeat: no-repeat;
   background-position: 50px 35px;
 
   @media #{$screen-mobile} {
     margin-left: -15%;
+  }
+
+  #overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
   }
 
   .province {

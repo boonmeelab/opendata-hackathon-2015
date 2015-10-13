@@ -82,13 +82,24 @@ hr {
     .vis-container {
       margin-top: 0px; } }
 
+#map {
+  margin-top: 35px;
+  margin-left: 43px; }
+  #map polygon, #map path {
+    fill: transparent;
+    stroke: #666; }
+
 #vis {
-  background-image: url('../image/map.png');
+  position: relative;
   background-repeat: no-repeat;
   background-position: 50px 35px; }
   @media only screen and (max-width: 767px) {
     #vis {
       margin-left: -15%; } }
+  #vis #overlay {
+    position: absolute;
+    top: 0;
+    left: 0; }
   #vis .province {
     fill: transparent;
     stroke: transparent; }

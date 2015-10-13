@@ -244,6 +244,7 @@ script(type="text/javascript").
   var s = projection.scale() // the projection's default scale
 
   var map = d3.select("#vis").append("svg:svg")
+      .attr("id", "overlay")
       .attr("width", w)
       .attr("height", h)
       // enable pan zoom
@@ -272,10 +273,14 @@ script(type="text/javascript").
     });
   map.call(tip);
 
+
   var thailand = map.append("svg:g").attr("id", "thailand");
   var legend = map.append("svg:g").attr("id", "legend");
-  var injuryMap = map.append("svg:g").attr("id", "injury-map");
-  var casualtyMap = map.append("svg:g").attr("id", "casualty-map");
+  var accidentMap = map.append("svg:g")
+    .attr("id", "accident-map")
+    .attr("clip-path", "url(#map-clip)");
+  var injuryMap = accidentMap.append("svg:g").attr("id", "injury-map");
+  var casualtyMap = accidentMap.append("svg:g").attr("id", "casualty-map");
 
   var dataset;
   var databucket = {};
@@ -285,6 +290,28 @@ script(type="text/javascript").
   var number_format = d3.format('0,000');
   var injured_color = d3.rgb('#57c3d3');
   var dead_color = d3.rgb('#ff0000');
+
+  d3.xml("/public/image/map.svg", "image/svg+xml", function(xml) {
+    var $map = $(xml.documentElement);
+    $map.attr('id', 'map');
+    $('#vis').prepend($map);
+
+    // insert map clip path
+    map.insert("svg:path", ":first-child")
+          .attr('id', 'map-clip-dummy')
+          .attr('fill', 'transparent')
+          .attr('transform', 'translate(43,33)scale(1.1)')
+          .attr('d', $('#_105613120').attr('d'));
+
+    map.insert("svg:defs", ":first-child")
+        .append("svg:clipPath")
+          .attr("id", "map-clip")
+        .append('svg:path')
+          .attr('id', 'map-clip-path')
+          .attr('transform', 'translate(43,33)scale(1.1)')
+          .attr('d', $('#_105613120').attr('d'));
+
+  });
 
   d3.json("/public/data/thailand.json", function (json) {
 
@@ -634,7 +661,9 @@ script(type="text/javascript").
     //- p = {
     //-   center: p.center
     //- };
-    data.center = p.center;
+    //- data.center = p.center;
+    data.center = path.centroid(p);
+
     var p_data = [data];
     var dv = Math.log(order+1) * 2;
 
@@ -648,10 +677,12 @@ script(type="text/javascript").
           return 'accident accident-dead accident-'+order;
         })
         .attr('cx', function(d) {
-          return projection(d.center)[0] + Math.random()*dv*2 - dv;
+          return d.center[0] + Math.random()*dv*2 - dv;
+          //- return projection(d.center)[0] + Math.random()*dv*2 - dv;
         })
-        .attr('cy', function(d) {
-          return projection(d.center)[1] + Math.random()*dv*2 - dv;
+        .attr('cy', function(d) {;
+          return d.center[1] + Math.random()*dv*2 - dv;
+          //- return projection(d.center)[1] + Math.random()*dv*2 - dv;
         })
         ;
     if (isDead) {
