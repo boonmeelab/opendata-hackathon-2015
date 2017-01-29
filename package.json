@@ -1,8 +1,8 @@
 {
   "name": "opendata-hackathon-2015",
   "description": "Open Data Hackathon 2015",
-  "version": "1.0.0",
-  "homepage": "http://opendata.boonmeelab.com/hackathon",
+  "version": "1.0.1",
+  "homepage": "http://data.boonmeelab.com/7days",
   "authors": [
     "Rapee Suveeranont <rapee@boonmeelab.com>",
     "Thitiphong Luangaroonlerd <thiti@boonmeelab.com>",
@@ -10,7 +10,8 @@
     "Vittavin Ittipanuvat <vitavin.i@gmail.com>"
   ],
   "scripts": {
-    "start": "node lib/app.js"
+    "start": "http-server dist",
+    "build": "grunt build"
   },
   "dependencies": {
     "async": "0.2.9",
@@ -23,14 +24,15 @@
   },
   "devDependencies": {
     "bower": "^1.5.3",
-    "node-sass": "~1.2.3",
     "grunt": "~0.4.1",
-    "grunt-contrib-copy": "~0.4.1",
-    "grunt-contrib-watch": "~0.5.1",
-    "grunt-contrib-uglify": "~0.2.2",
-    "grunt-contrib-jade": "~0.15.0",
-    "grunt-contrib-stylus": "~0.12.0",
+    "grunt-bower-task": "^0.4.0",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-sass": "~0.17.0"
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-jade": "*",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-sass": "*",
+    "http-server": "^0.9.0",
+    "node-sass": "^4.4.0"
   }
 }

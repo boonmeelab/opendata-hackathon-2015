@@ -6,16 +6,20 @@
 ```bash
 cd opendata-hackathon-2015
 npm install
-bower install
-npm install -g pm2
 ```
 
-## Start app
+## Development
 
 ```bash
-# local machine
-pm2 start config/local.json
-# production machine
-pm2 start config/production.json
+npm start
 ```
 
+## Build
+
+```bash
+npm run build
+```
+
+## Deploy
+
+After build, upload all files in `dist/` to web server.
