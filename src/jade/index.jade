@@ -59,7 +59,7 @@ html
                       span.caret
                     ul.dropdown-menu(aria-labelledby='select-year-btn')
                       for y in [2008,2009,2010,2011,2012,2013,2014,2015]
-                        li: a(href='/?year='+y, class=y===+select_year?'selected':'')= y
+                        li: a(href='?year='+y, class=y===+select_year?'selected':'')= y
 
                 #timeline.timeline
                   #slider
